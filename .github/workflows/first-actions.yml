@@ -1,5 +1,5 @@
 # This is my new script
-name: My First GitHub Actions
+name: Python and Java CI
 
 on: [push]
 
@@ -12,18 +12,56 @@ jobs:
         python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest
+      # Setup Python 3.12
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Run tests
-      run: |
-        cd src
-        python -m pytest addition.py
+      # Setup Java 17
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Check installed versions
+      - name: Check versions
+        run: |
+          python --version
+          java --version
+          javac --version
+
+      # Install Python dependencies
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      # Run Python
+      - name: Run Python
+        run: |
+          cd src
+          python addition.py
+
+      # Run Python tests
+      - name: Run Python tests
+        run: |
+          cd src
+          python -m pytest addition.py
+
+      # Compile Java
+      - name: Compile Java
+        run: |
+          cd src
+          javac HelloWorld.java
+
+      # Run Java
+      - name: Run Java
+        run: |
+          cd src
+          java HelloWorld
