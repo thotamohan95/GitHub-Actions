@@ -5,12 +5,18 @@ public class App {
     }
 
     public static void testAdd() {
-        assert add(1, 2) == 3;
-        assert add(1, -1) == 0;
+        if (add(1, 2) != 3) {
+            throw new AssertionError("Test failed: add(1, 2)");
+        }
+
+        if (add(1, -1) != 0) {
+            throw new AssertionError("Test failed: add(1, -1)");
+        }
+
+        System.out.println("All tests passed!");
     }
 
     public static void main(String[] args) {
         testAdd();
-        System.out.println("All tests passed!");
     }
 }
