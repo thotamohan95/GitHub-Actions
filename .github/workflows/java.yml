@@ -1,0 +1,33 @@
+name: My First Java GitHub Actions
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        java-version: [17, 21]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: temurin
+
+      - name: Compile Java
+        run: |
+          cd src
+          javac App.java
+
+      - name: Run tests
+        run: |
+          cd src
+          java App
